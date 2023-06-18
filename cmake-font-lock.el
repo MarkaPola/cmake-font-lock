@@ -180,6 +180,7 @@
                                       "COMMAND_EXPAND_LISTS"
                                       "COMMENT"
                                       "DEPENDS"
+                                      "DEPENDS_EXPLICIT_ONLY"
                                       "DEPFILE"
                                       "IMPLICIT_DEPENDS"
                                       "JOB_POOL"
@@ -1406,7 +1407,7 @@ This is used to keep down the size of
                                           ("PUBLIC"    :repeat :path)
                                           ("PRIVATE"   :repeat :path)
                                           ("REUSE_FROM" :tgt)))
-    ("target_sources"             (:tgt) (("BASE_DIR" :repeat :path)
+    ("target_sources"             (:tgt) (("BASE_DIRS" :repeat :path)
                                           ("FILE_SET" nil)
                                           ("FILES"    :repeat :path)
                                           ("TYPE"     nil)))
