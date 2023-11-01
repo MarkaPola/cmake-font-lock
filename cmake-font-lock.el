@@ -1466,7 +1466,7 @@ Elements are fontified as specified by
 
 ;;;###autoload
 (defvar cmake-font-lock-modes
-  '(cmake-mode)
+  '(cmake-mode cmake-ts-mode)
   "List of major modes this package should be activated for.
 
 Set this to nil to disable automatic activation.")
