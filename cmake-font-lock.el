@@ -184,6 +184,7 @@
                                       "DEPFILE"
                                       "IMPLICIT_DEPENDS"
                                       "JOB_POOL"
+                                      "JOB_SERVER_AWARE"
                                       "MAIN_DEPENDENCY"
                                       "OUTPUT"
                                       "POST_BUILD"
@@ -200,6 +201,7 @@
                                       "COMMENT"
                                       "DEPENDS"
                                       "JOB_POOL"
+                                      "JOB_SERVER_AWARE"
                                       "SOURCES"
                                       "USES_TERMINAL"
                                       "VERBATIM"
@@ -720,6 +722,7 @@
                                       "VARIABLE"))
     ("get_source_file_property"    . ("DIRECTORY"
                                       "TARGET_DIRECTORY"))
+    ("get_test_property"           . ("DIRECTORY"))
     ("include"                     . ("NO_POLICY_SCOPE"
                                       "OPTIONAL"
                                       "RESULT_VARIABLE"))
@@ -901,7 +904,8 @@
                                       "PROPERTIES"
                                       "TARGET_DIRECTORY"))
     ("set_target_properties"       . ("PROPERTIES"))
-    ("set_tests_properties"        . ("PROPERTIES"))
+    ("set_tests_properties"        . ("DIRECTORY"
+                                      "PROPERTIES"))
     ("source_group"                . ("FILES"
                                       "PREFIX"
                                       "REGULAR_EXPRESSION"
@@ -1257,7 +1261,7 @@ This is used to keep down the size of
                                       ("TEST"      :tst)))
     ("get_source_file_property" (:var :path :prop))
     ("get_target_property"    (:var :tgt :prop))
-    ("get_test_property"      (:test :prop :var))
+    ("get_test_property"      (:test :prop) (("DIRECTORY" :path)))
     ;; Note: "(" is treated as a keyword, however, it will never be
     ;; fontified as such, thanks to
     ;; `cmake-font-lock-argument-kind-regexp-alist'.
@@ -1347,10 +1351,9 @@ This is used to keep down the size of
     ("set_source_files_properties" () (("PROPERTIES" :repeat (:prop nil))
                                        ("DIRECTORY"  :repeat :path)
                                        ("TARGET_DIRECTORY" :repeat :tgt)))
-    ("set_target_properties"  (:repeat :tgt)
-     (("PROPERTIES" :repeat (:prop nil))))
-    ("set_test_properties"    (:repeat :tst)
-     (("PROPERTIES" :repeat (:prop nil))))
+    ("set_target_properties"  (:repeat :tgt) (("DIRECTORY"  :path)
+                                              ("PROPERTIES" :repeat (:prop nil))))
+    ("set_test_properties"    (:repeat :tst) (("PROPERTIES" :repeat (:prop nil))))
     ("site_name"              (:var))
     ("string"                 ()      (("CONCAT"    :var)
                                        ("GENEX_STRIP" nil :var)
