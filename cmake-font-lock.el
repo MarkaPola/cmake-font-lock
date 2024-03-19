@@ -258,6 +258,7 @@
                                        "DEFER"
                                        "DIRECTORY"
                                        "EVAL"
+                                       "EXIT"
                                        "FETCHCONTENT_MAKEAVAILABE_SERIAL"
                                        "FIND_PACKAGE"
                                        "GET_CALL"
@@ -386,12 +387,19 @@
                                       "WORKING_DIRECTORY"))
     ("export"                      . ("ANDROID_MK"
                                       "APPEND"
+                                      "AUTO"
+                                      "ENABLED"
                                       "EXPORT"
                                       "EXPORT_LINK_INTERFACE_LIBRARIES"
+                                      "EXTRA_ARGS"
                                       "FILE"
                                       "NAMESPACE"
                                       "PACKAGE"
-                                      "TARGETS"))
+                                      "PACKAGE_DEPENDENCY"
+                                      "SETUP"
+                                      "TARGET"
+                                      "TARGETS"
+                                      "XCFRAMEWORK_LOCATION"))
     ("export_library_dependencies" . ("APPEND"))
     ("file"                        . ("@ONLY"
                                       "APPEND"
@@ -1133,6 +1141,7 @@ This is used to keep down the size of
     ("cmake_host_system_information" () (("ERROR_VARIABLE" :var)
                                          ("RESULT" :var)))
     ("cmake_language"                () (("CALL" :func :repeat :var)
+                                         ("EXIT" nil)
                                          ("GET_MESSAGE_LOG_LEVEL" :var)
                                          ("SET_DEPENDENCY_PROVIDER" :func)))
     ("cmake_policy"           () (("GET" :policy :var)
@@ -1170,8 +1179,10 @@ This is used to keep down the size of
                                   ("INPUT_FILE"       :path)
                                   ("OUTPUT_FILE"      :path)
                                   ("ERROR_FILE"       :path)))
-    ("export"                 () (("TARGETS" :repeat :tgt)
-                                  ("CXX_MODULES_DIRECTORY" :path)))
+    ("export"                 () (("TARGET" :tgt)
+                                  ("TARGETS" :repeat :tgt)
+                                  ("CXX_MODULES_DIRECTORY" :path)
+                                  ("XCFRAMEWORK_LOCATION" :path)))
     ("file"                   ()     (("LOCK"            :path)
                                       ("CHMOD"           :repeat :path)
                                       ("CHMOD_RECURSE"   :repeat :path)
@@ -1285,8 +1296,11 @@ This is used to keep down the size of
       ("IN_LIST"               :var)
       ("IS_ABSOLUTE"           :path)
       ("IS_DIRECTORY"          :path)
+      ("IS_EXECUTABLE"         :path)
       ("IS_NEWER_THAN"         :path)
+      ("IS_READABLE"           :path)
       ("IS_SYMLINK"            :path)
+      ("IS_WRITABLE"           :path)
       ("LESS"                  :var)
       ("LESS_EQUAL"            :var)
       ("MATCHES"               :regexp)
@@ -1481,7 +1495,7 @@ Set this to nil to disable automatic activation.")
 
 To activate this every time a CMake file is opened, use the following:
 
-    (add-hook 'cmake-mode-hook 'cmake-font-lock-activate)"
+    (add-hook \\='cmake-mode-hook \\='cmake-font-lock-activate)"
   (interactive)
   (cmake-font-lock-setup)
   ;; If this function is called after font-lock is up and running,
