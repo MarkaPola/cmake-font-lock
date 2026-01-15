@@ -176,6 +176,7 @@
   '(("add_custom_command"          . ("APPEND"
                                       "ARGS"
                                       "BYPRODUCTS"
+                                      "CODEGEN"
                                       "COMMAND"
                                       "COMMAND_EXPAND_LISTS"
                                       "COMMENT"
@@ -311,6 +312,29 @@
                                       "STEM"
                                       "TO_CMAKE_PATH_LIST"
                                       "TO_NATIVE_PATH_LIST"))
+    ("cmake_pkg_config"            . ("ALLOW_SYSTEM_INCLUDES"
+                                      "ALLOW_SYSTEM_LIBS"
+                                      "BIND_PC_REQUIRES"
+                                      "DISABLE_UNINSTALLED"
+                                      "ENV_MODE"
+                                      "FDO"
+                                      "PKGCONFIG"
+                                      "IGNORE"
+                                      "EXACT"
+                                      "EXTRACT"
+                                      "PC_LIBDIR"
+                                      "PC_PATH"
+                                      "PC_SYSROOT_DIR"
+                                      "PREFIX"
+                                      "QUIET"
+                                      "REQUIRED"
+                                      "STRICTNESS"
+                                      "STRICT"
+                                      "PERMISSIVE"
+                                      "BEST_EFFORT"
+                                      "SYSTEM_INCLUDE_DIRS"
+                                      "SYSTEM_LIBRARY_DIRS"
+                                      "TOP_BUILD_DIR"))
     ("cmake_policy"                . ("GET"
                                       "NEW"
                                       "OLD"
@@ -539,6 +563,7 @@
                                       "UTC"
                                       "VERBOSE"
                                       "WIN32"
+                                      "WORKING_DIRECTORY"
                                       "WORLD_EXECUTE"
                                       "WORLD_READ"
                                       "WORLD_WRITE"
@@ -1145,6 +1170,10 @@ This is used to keep down the size of
                                          ("EXIT" nil)
                                          ("GET_MESSAGE_LOG_LEVEL" :var)
                                          ("SET_DEPENDENCY_PROVIDER" :func)))
+    ("cmake_pkg_config"       () (("PC_LIBDIR" :repeat :path)
+                                  ("PC_PATH" :repeat :path)
+                                  ("PC_SYSROOT_DIR" :path)
+                                  ("TOP_BUILD_DIR" :path)))
     ("cmake_policy"           () (("GET" :policy :var)
                                   ("SET" :policy)))
     ("cmake_path"             () (("ABSOLUTE_PATH" :var)
@@ -1229,7 +1258,8 @@ This is used to keep down the size of
                                       ("OUTPUT"          :path)
                                       ("FILES"           :repeat :path)
                                       ("DIRECTORY"       :repeat :path)
-                                      ("DESTINATION"     :path)))
+                                      ("DESTINATION"     :path)
+                                      ("WORKING_DIRECTORY" :path)))
     ("find_file"              (:var :optional nil :repeat :path)
      ;; Note: Paths and "ENV var" can be mixed, as in:
      ;;
