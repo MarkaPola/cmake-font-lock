@@ -322,9 +322,12 @@
                                       "IGNORE"
                                       "EXACT"
                                       "EXTRACT"
+                                      "IMPORT"
+                                      "NAME"
                                       "PC_LIBDIR"
                                       "PC_PATH"
                                       "PC_SYSROOT_DIR"
+                                      "POPULATE"
                                       "PREFIX"
                                       "QUIET"
                                       "REQUIRED"
@@ -905,7 +908,8 @@
                                       "TRACE"
                                       "VERBOSE"
                                       "WARNING"))
-    ("project"                     . ("DESCRIPTION"
+    ("project"                     . ("COMPAT_VERSION"
+                                      "DESCRIPTION"
                                       "HOMEPAGE_URL"
                                       "LANGUAGES"
                                       "VERSION"))
