@@ -523,8 +523,9 @@
                                       "TARGET"
                                       "TIMEOUT"
                                       "TIMESTAMP"
-                                      "TLS_VERIFY"
                                       "TLS_CAINFO"
+                                      "TLS_VERIFY"
+                                      "TLS_VERSION"
                                       "TO_CMAKE_PATH"
                                       "TO_NATIVE_PATH"
                                       "TOUCH"
@@ -1221,6 +1222,7 @@ This is used to keep down the size of
                                       ("RESULT"          :var)
                                       ("RESULT_VARIABLE" :var)
                                       ("RELATIVE_PATH"   :var :path :path)
+                                      ("TLS_VERSION"     nil)
                                       ("TO_CMAKE_PATH"   :path :var)
                                       ("TO_NATIVE_PATH"  :path :var)
                                       ("INPUT"           :path)
