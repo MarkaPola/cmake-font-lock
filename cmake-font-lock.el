@@ -260,13 +260,17 @@
                                        "DIRECTORY"
                                        "EVAL"
                                        "EXIT"
+                                       "EXPAND"
                                        "FETCHCONTENT_MAKEAVAILABE_SERIAL"
                                        "FIND_PACKAGE"
                                        "GET_CALL"
                                        "GET_CALL_IDS"
                                        "ID"
                                        "ID_VAR"
-                                       "SUPPORTED_METHODS"))
+                                       "OFF"
+                                       "ON"
+                                       "SUPPORTED_METHODS"
+                                       "TRACE"))
     ("cmake_minimum_required"      . ("FATAL_ERROR"
                                       "VERSION"))
     ("cmake_parse_arguments"       . ("PARSE_ARGV"))
@@ -922,10 +926,13 @@
                                       "CACHE"
                                       "FILEPATH"
                                       "FORCE"
+                                      "HELP"
                                       "INTERNAL"
                                       "PARENT_SCOPE"
                                       "PATH"
-                                      "STRING"))
+                                      "STRING"
+                                      "TYPE"
+                                      "VALUE"))
     ("set_directory_properties"    . ("PROPERTIES"))
     ("set_property"                . ("APPEND"
                                       "APPEND_STRING"
@@ -979,6 +986,7 @@
                                       "NAMESPACE"
                                       "NOTEQUAL"
                                       "PREPEND"
+                                      "QUOTE"
                                       "RANDOM"
                                       "RANDOM_SEED"
                                       "REGEX"
@@ -1412,6 +1420,7 @@ This is used to keep down the size of
                                        ("MATCH"     nil :var)
                                        ("MATCHALL"  nil :var)
                                        ("REPLACE"   nil nil :var)
+                                       ("QUOTE"     :var)
                                        ("MD5"       :var)
                                        ("SHA1"      :var)
                                        ("SHA224"    :var)
