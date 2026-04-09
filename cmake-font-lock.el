@@ -238,6 +238,7 @@
                                       "PROJECT_NAME"
                                       "TARGET"))
     ("cmake_host_system_information" . ("ERROR_VARIABLE"
+                                        "LOCALE_CHARSET"
                                         "QUERY"
                                         "RESULT"
                                         "SEPARATOR"
@@ -254,6 +255,12 @@
                                         "BOTH"
                                         "HOST"
                                         "TARGET"))
+    ("cmake_instrumentation"        . ("API_VERSION"
+                                       "CALLBACK"
+                                       "CUSTOM_CONTENT"
+                                       "DATA_VERSION"
+                                       "HOOKS"
+                                       "OPTIONS"))
     ("cmake_language"               . ("CANCEL_CALL"
                                        "CODE"
                                        "DEFER"
@@ -418,18 +425,36 @@
                                       "WORKING_DIRECTORY"))
     ("export"                      . ("ANDROID_MK"
                                       "APPEND"
+                                      "APPENDIX"
                                       "AUTO"
+                                      "COMPAT_VERSION"
+                                      "CXX_MODULES_DIRECTORY"
+                                      "DEFAULT_CONFIGURATIONS"
+                                      "DEFAULT_LICENSE"
+                                      "DEFAULT_TARGETS"
+                                      "DESCRIPTION"
                                       "ENABLED"
                                       "EXPORT"
                                       "EXPORT_LINK_INTERFACE_LIBRARIES"
                                       "EXTRA_ARGS"
                                       "FILE"
+                                      "FORMAT"
+                                      "HOMEPAGE_URL"
+                                      "LICENSE"
+                                      "LOWER_CASE_FILE"
                                       "NAMESPACE"
+                                      "NO_PROJECT_METADATA"
                                       "PACKAGE"
                                       "PACKAGE_DEPENDENCY"
+                                      "PACKAGE_INFO"
+                                      "PACKAGE_URL"
+                                      "PROJECT"
+                                      "SBOM"
                                       "SETUP"
                                       "TARGET"
                                       "TARGETS"
+                                      "VERSION"
+                                      "VERSION_SCHEMA"
                                       "XCFRAMEWORK_LOCATION"))
     ("export_library_dependencies" . ("APPEND"))
     ("file"                        . ("@ONLY"
@@ -552,6 +577,7 @@
                                       "STRINGS"
                                       "SYMBOLIC"
                                       "TARGET"
+                                      "THREADS"
                                       "TIMEOUT"
                                       "TIMESTAMP"
                                       "TLS_CAINFO"
@@ -751,6 +777,7 @@
                                       "CACHE"
                                       "DEFINED"
                                       "DIRECTORY"
+                                      "FILE_SET"
                                       "FULL_DOCS"
                                       "GLOBAL"
                                       "INSTALL"
@@ -779,10 +806,15 @@
                                       "ARCHIVE"
                                       "BUNDLE"
                                       "CODE"
+                                      "COMPAT_VERSION"
                                       "COMPONENT"
                                       "CONFIGURATIONS"
                                       "CXX_MODULES_BMI"
                                       "CXX_MODULES_DIRECTORY"
+                                      "DESCRIPTION"
+                                      "DEFAULT_CONFIGURATIONS"
+                                      "DEFAULT_LICENSE"
+                                      "DEFAULT_TARGETS"
                                       "DESTINATION"
                                       "DIRECTORY"
                                       "DIRECTORY_PERMISSIONS"
@@ -796,12 +828,15 @@
                                       "FILES"
                                       "FILES_MATCHING"
                                       "FILE_PERMISSIONS"
+                                      "FORMAT"
                                       "FRAMEWORK"
                                       "GROUP_EXECUTE"
                                       "GROUP_READ"
                                       "GROUP_WRITE"
+                                      "HOMEPAGE_URL"
                                       "INCLUDES"
                                       "LIBRARY"
+                                      "LICENSE"
                                       "MESSAGE"
                                       "MESSAGE_NEVER"
                                       "NAMELINK_COMPONENT"
@@ -813,6 +848,8 @@
                                       "OWNER_EXECUTE"
                                       "OWNER_READ"
                                       "OWNER_WRITE"
+                                      "PACKAGE_INFO"
+                                      "PACKAGE_URL"
                                       "PATTERN"
                                       "PERMISSIONS"
                                       "PRIVATE_HEADER"
@@ -824,12 +861,15 @@
                                       "RUNTIME"
                                       "RUNTIME_DEPENDENCIES"
                                       "RUNTIME_DEPENDENCY_SET"
+                                      "SBOM"
                                       "SETGID"
                                       "SETUID"
                                       "SCRIPT"
                                       "TARGETS"
                                       "TYPE"
                                       "USE_SOURCE_PERMISSIONS"
+                                      "VERSION"
+                                      "VERSION_SCHEMA"
                                       "WORLD_EXECUTE"
                                       "WORLD_READ"
                                       "WORLD_WRITE"
@@ -916,6 +956,7 @@
                                       "DESCRIPTION"
                                       "HOMEPAGE_URL"
                                       "LANGUAGES"
+                                      "SPDX_LICENSE"
                                       "VERSION"))
     ("separate_arguments"          . ("NATIVE_COMMAND"
                                       "PROGRAM"
@@ -938,6 +979,7 @@
                                       "APPEND_STRING"
                                       "CACHE"
                                       "DIRECTORY"
+                                      "FILE_SET"
                                       "GLOBAL"
                                       "INSTALL"
                                       "PROPERTY"
@@ -968,6 +1010,7 @@
                                       "FIND"
                                       "GENEX_STRIP"
                                       "GET"
+                                      "GET_RAW"
                                       "GREATER"
                                       "GREATER_EQUAL"
                                       "HEX"
@@ -1004,6 +1047,7 @@
                                       "SHA3_256"
                                       "SHA3_384"
                                       "SHA3_512"
+                                      "STRING_ENCODE"
                                       "STRIP"
                                       "SUBSTRING"
                                       "TIMESTAMP"
@@ -1312,6 +1356,7 @@ This is used to keep down the size of
                                       ("DIRECTORY" :optional :path)
                                       ("INSTALL"   :path)
                                       ("SOURCE"    :path)
+                                      ("FILE_SET"  :fileset)
                                       ("TARGET"    :tgt)
                                       ("TEST"      :tst)))
     ("get_source_file_property" (:var :path :prop))
@@ -1403,6 +1448,7 @@ This is used to keep down the size of
                                        ("DIRECTORY"        :repeat :path)
                                        ("INSTALL"          :repeat :path)
                                        ("SOURCE"           :repeat :path)
+                                       ("FILE_SET"         :repeat :fileset)
                                        ("TARGET"           :repeat :tgt)
                                        ("TARGET_DIRECTORY" :repeat :tgt)
                                        ("TEST"             :repeat :tst)))
@@ -1854,6 +1900,7 @@ ${var} construct."
     (:prop    . font-lock-constant-face)
     (:policy  . font-lock-constant-face)
     (:keyword . font-lock-type-face)
+    (:fileset . font-lock-constant-face)
     (:tgt     . font-lock-constant-face)
     (:tst     . font-lock-constant-face))
   "*Map from argument kind to face used to highlight that kind.")
