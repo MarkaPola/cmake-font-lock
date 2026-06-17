@@ -230,13 +230,26 @@
                                       "CONFIGURATIONS"
                                       "NAME"
                                       "WORKING_DIRECTORY"))
-    ("block"                       . ("POLICIES"
+    ("block"                       . ("DIAGNOSTICS"
+                                      "POLICIES"
                                       "SCOPE_FOR"
                                       "VARIABLES"))
     ("build_command"               . ("CONFIGURATION"
                                       "PARALLEL_LEVEL"
                                       "PROJECT_NAME"
                                       "TARGET"))
+    ("cmake_diagnostic"            . ("DEMOTE"
+                                      "FATAL_ERROR"
+                                      "GET"
+                                      "IGNORE"
+                                      "NO_RECURSE"
+                                      "PROMOTE"
+                                      "POP"
+                                      "PUSH"
+                                      "SEND_ERROR"
+                                      "SET"
+                                      "RECURSE"
+                                      "WARN"))
     ("cmake_host_system_information" . ("ERROR_VARIABLE"
                                         "LOCALE_CHARSET"
                                         "QUERY"
@@ -280,7 +293,8 @@
                                        "TRACE"))
     ("cmake_minimum_required"      . ("FATAL_ERROR"
                                       "VERSION"))
-    ("cmake_parse_arguments"       . ("PARSE_ARGV"))
+    ("cmake_parse_arguments"       . ("PARSE_ARGN"
+                                      "PARSE_ARGV"))
     ("cmake_path"                  . ("ABSOLUTE_PATH"
                                       "APPEND"
                                       "APPEND_STRING"
@@ -390,6 +404,7 @@
                                       "TARGET"
                                       "TEST"
                                       "VARIABLE"))
+    ("discover_tests"              . ("COMMAND_EXPAND_LISTS"))
     ("enable_language"             . ("OPTIONAL"))
     ("exec_program"                . ("ARGS"
                                       "OUTPUT_VARIABLE"
@@ -791,7 +806,8 @@
     ("get_source_file_property"    . ("DIRECTORY"
                                       "TARGET_DIRECTORY"))
     ("get_test_property"           . ("DIRECTORY"))
-    ("include"                     . ("NO_POLICY_SCOPE"
+    ("include"                     . ("NO_DIAGNOSTIC_SCOPE"
+                                      "NO_POLICY_SCOPE"
                                       "OPTIONAL"
                                       "RESULT_VARIABLE"))
     ("include_directories"         . ("AFTER"
@@ -890,9 +906,11 @@
                                       "general"
                                       "optimized"))
     ("list"                        . ("APPEND"
+                                      "APPLY"
                                       "ASCENDING"
                                       "AT"
                                       "CASE"
+                                      "COMPARATOR"
                                       "COMPARE"
                                       "DESCENDING"
                                       "EXCLUDE"
@@ -911,6 +929,7 @@
                                       "ORDER"
                                       "POP_BACK"
                                       "POP_FRONT"
+                                      "PREDICATE"
                                       "PREPEND"
                                       "REGEX"
                                       "REMOVE_AT"
@@ -1028,6 +1047,7 @@
                                       "NAME"
                                       "NAMESPACE"
                                       "NOTEQUAL"
+                                      "PARTIAL_EQUAL"
                                       "PREPEND"
                                       "QUOTE"
                                       "RANDOM"
@@ -1220,6 +1240,10 @@ This is used to keep down the size of
     ("aux_source_directory"   (nil :var))
     ("block"                  () (("PROPAGATE" :repeat :var)))
     ("build_command"          (:var) (("TARGET" :tgt)))
+    ("cmake_diagnostic"       () (("DEMOTE" :diag :diag)
+                                  ("GET" :diag :var)
+                                  ("PROMOTE" :diag :diag)
+                                  ("SET" :diag :diag)))
     ("cmake_host_system_information" () (("ERROR_VARIABLE" :var)
                                          ("RESULT" :var)))
     ("cmake_language"                () (("CALL" :func :repeat :var)
@@ -1256,6 +1280,14 @@ This is used to keep down the size of
                                   ("REPLACE_EXTENSION" :var)
                                   ("REPLACE_FILENAME" :var)
                                   ("SET" :var)))
+    ("discover_tests"         () (("COMMAND" nil :repeat nil)
+                                  ("CONFIGURATIONS" :repeat nil)
+                                  ("DISCOVERY_ARGS" :repeat nil)
+                                  ("DISCOVERY_MATCH" nil)
+                                  ("DISCOVERY_PROPERTIES" :repeat (nil nil))
+                                  ("TEST_NAME" nil)
+                                  ("TEST_ARGS" :repeat nil)
+                                  ("TEST_PROPERTIES" :repeat (nil nil))))
     ("define_property"        () (("PROPERTY" :prop)
                                   ("INITIALIZE_FROM_VARIABLE" :var)))
     ("execute_process"        () (("RESULT_VARIABLE"  :var)
@@ -1264,6 +1296,8 @@ This is used to keep down the size of
                                   ("ERROR_VARIABLE"   :var)
                                   ("INPUT_FILE"       :path)
                                   ("OUTPUT_FILE"      :path)
+                                  ("ENVIRONMENT"      :repeat nil)
+                                  ("ENVIRONMENT_MODIFICATION" :repeat nil)
                                   ("ERROR_FILE"       :path)))
     ("export"                 () (("TARGET" :tgt)
                                   ("TARGETS" :repeat :tgt)
@@ -1273,6 +1307,7 @@ This is used to keep down the size of
                                       ("CHMOD"           :repeat :path)
                                       ("CHMOD_RECURSE"   :repeat :path)
                                       ("COPY_FILE"       :path :path)
+                                      ("ENCODING"        nil)
                                       ("MAKE_DIRECTORY"  :repeat :path)
                                       ("POST_EXCLUDE_FILES" :repeat :path)
                                       ("POST_INCLUDE_FILES" :repeat :path)
@@ -1281,6 +1316,7 @@ This is used to keep down the size of
                                       ("REMOVE"          :repeat :path)
                                       ("REMOVE_RECURSE"  :repeat :path)
                                       ("RENAME"          :path :path)
+                                      ("RESULT"          :var)
                                       ("MD5"             :path :var)
                                       ("SHA1"            :path :var)
                                       ("SHA224"          :path :var)
@@ -1422,11 +1458,14 @@ This is used to keep down the size of
                                   ("LENGTH"            :var :var)
                                   ("GET"               :var :repeat nil :var)
                                   ("APPEND"            :var)
+                                  ("APPLY"             :func)
+                                  ("COMPARATOR"        :func)
                                   ("FIND"              :var nil :var)
                                   ("INSERT"            :var)
                                   ("JOIN"              :var nil :var)
                                   ("POP_BACK"          :repeat :var)
                                   ("POP_FRONT"         :repeat :var)
+                                  ("PREDICATE"         :func)
                                   ("PREPEND"           :var)
                                   ("REMOVE_ITEM"       :var)
                                   ("REMOVE_AT"         :var)
@@ -1554,6 +1593,7 @@ An argument kind is:
  - :func          A function
  - :prop          A property
  - :policy        A CMake policy
+|- :diag          A CMake diagnostic category
  - :path          A file or a directory
  - :tgt           A target
  - :def           A preprocessor definition
@@ -1899,6 +1939,7 @@ ${var} construct."
     (:func    . font-lock-function-name-face)
     (:prop    . font-lock-constant-face)
     (:policy  . font-lock-constant-face)
+    (:diag    . font-lock-constant-face)
     (:keyword . font-lock-type-face)
     (:fileset . font-lock-constant-face)
     (:tgt     . font-lock-constant-face)
@@ -2085,7 +2126,8 @@ pre-match-form."
   '((:var     . "\\`[a-z@_$][a-z@_0-9${}]*\\'")
     (:keyword . "\\`[a-z@_$][a-z@_0-9${}]*\\'")
     (:prop    . "\\`[a-z@_$][a-z@_0-9${}]*\\'")
-    (:policy  . "\\`[a-z@_$][a-z@_0-9${}]*\\'")))
+    (:policy  . "\\`[a-z@_$][a-z@_0-9${}]*\\'")
+    (:diag    . "\\`[a-z@_$][a-z@_0-9${}]*\\'")))
 
 
 (defvar cmake-font-lock-this-argument-face nil
