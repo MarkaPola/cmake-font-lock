@@ -1,3 +1,5 @@
+;;; ...  -*- lexical-binding: t -*-
+
 ;;; cmake-font-lock.el --- Advanced, type aware, highlight support for CMake
 
 ;; Copyright (C) 2012-2021 Anders Lindgren
@@ -195,6 +197,15 @@
                                       "USES_TERMINAL"
                                       "VERBATIM"
                                       "WORKING_DIRECTORY"))
+    ("add_custom_rule"             . ("BYPRODUCTS"
+                                      "COMMAND"
+                                      "CONFIGURATOR"
+                                      "DEPENDS"
+                                      "DEPFILE"
+                                      "FOR_FILE_SET"
+                                      "FOR_RULE"
+                                      "FOR_SOURCE"
+                                      "OUTPUT"))
     ("add_custom_target"           . ("ALL"
                                       "BYPRODUCTS"
                                       "COMMAND"
@@ -274,21 +285,30 @@
                                        "DATA_VERSION"
                                        "HOOKS"
                                        "OPTIONS"))
-    ("cmake_language"               . ("CANCEL_CALL"
+    ("cmake_language"               . ("ALL"
+                                       "CANCEL_CALL"
                                        "CODE"
                                        "DEFER"
+                                       "DEFERED"
                                        "DIRECTORY"
                                        "EVAL"
                                        "EXIT"
                                        "EXPAND"
                                        "FETCHCONTENT_MAKEAVAILABE_SERIAL"
                                        "FIND_PACKAGE"
+                                       "FOLLOW_DEPENDENCIES"
                                        "GET_CALL"
                                        "GET_CALL_IDS"
                                        "ID"
                                        "ID_VAR"
+                                       "IGNORE_CASE"
+                                       "IMPORTED_ONLY"
+                                       "NO_IMPORTED"
                                        "OFF"
                                        "ON"
+                                       "PRINT_PROPERTIES"
+                                       "PRINT_TARGETS"
+                                       "PRINT_VARIABLES"
                                        "SUPPORTED_METHODS"
                                        "TRACE"))
     ("cmake_minimum_required"      . ("FATAL_ERROR"
@@ -797,6 +817,7 @@
                                       "GLOBAL"
                                       "INSTALL"
                                       "PROPERTY"
+                                      "RULE"
                                       "SET"
                                       "SOURCE"
                                       "TARGET"
@@ -839,6 +860,7 @@
                                       "EXPORT"
                                       "EXPORT_ANDROID_MK"
                                       "EXPORT_LINK_INTERFACE_LIBRARIES"
+                                      "EXPORT_PACKAGE_DEPENDENCIES"
                                       "FILE"
                                       "FILE_SET"
                                       "FILES"
@@ -853,12 +875,14 @@
                                       "INCLUDES"
                                       "LIBRARY"
                                       "LICENSE"
+                                      "LOWER_CASE_FILE"
                                       "MESSAGE"
                                       "MESSAGE_NEVER"
                                       "NAMELINK_COMPONENT"
                                       "NAMELINK_ONLY"
                                       "NAMELINK_SKIP"
                                       "NAMESPACE"
+                                      "NO_PROJECT_METADATA"
                                       "OBJECTS"
                                       "OPTIONAL"
                                       "OWNER_EXECUTE"
@@ -877,6 +901,7 @@
                                       "RUNTIME"
                                       "RUNTIME_DEPENDENCIES"
                                       "RUNTIME_DEPENDENCY_SET"
+                                      "RUNTIME_DEPENDENCY_TARGETS"
                                       "SBOM"
                                       "SETGID"
                                       "SETUID"
@@ -1002,6 +1027,7 @@
                                       "GLOBAL"
                                       "INSTALL"
                                       "PROPERTY"
+                                      "RULE"
                                       "SOURCE"
                                       "TARGET"
                                       "TARGET_DIRECTORY"
@@ -1231,6 +1257,10 @@ This is used to keep down the size of
                                       ("IMPLICIT_DEPENDS" :repeat nil :path)
                                       ("MAIN_DEPENDENCY" :path)
                                       ("TARGET" :tgt)))
+    ("add_custom_rule"        (:rule)(("BYPRODUCTS" :repeat :path)
+                                      ("DEPENDS" :repeat :path)
+                                      ("DEPFILE" :path)
+                                      ("FROM_RULE" :rule)))
     ("add_custom_target"      (:tgt) (("BYPRODUCTS" :repeat :path)
                                       ("DEPENDS" :repeat :path)
                                       ("SOURCES" :repeat :path)))
@@ -1246,8 +1276,19 @@ This is used to keep down the size of
                                   ("SET" :diag :diag)))
     ("cmake_host_system_information" () (("ERROR_VARIABLE" :var)
                                          ("RESULT" :var)))
-    ("cmake_language"                () (("CALL" :func :repeat :var)
+    ("cmake_language"                () (("CACHE_ENTRIES" :repeat nil)
+                                         ("CALL" :func :repeat :var)
+                                         ("DIRECTORIES" :repeat :path)
                                          ("EXIT" nil)
+                                         ("NAMED" :repeat nil)
+                                         ("NAME_REGEX" :regexp)
+                                         ("PROPERTY_NAME_REGEX" :regexp)
+                                         ("PROPERTY_VALUE_REGEX" :regexp)
+                                         ("REGEX" :regexp)
+                                         ("SOURCES" :repeat :path)
+                                         ("TARGETS" :repeat :tgt)
+                                         ("TESTS" :repeat :tst)
+                                         ("VALUE_REGEX" :regexp)
                                          ("GET_MESSAGE_LOG_LEVEL" :var)
                                          ("SET_DEPENDENCY_PROVIDER" :func)))
     ("cmake_pkg_config"       () (("PC_LIBDIR" :repeat :path)
@@ -1280,7 +1321,8 @@ This is used to keep down the size of
                                   ("REPLACE_EXTENSION" :var)
                                   ("REPLACE_FILENAME" :var)
                                   ("SET" :var)))
-    ("discover_tests"         () (("COMMAND" nil :repeat nil)
+    ("discover_tests"         () (("BUILD_DEPENDS" :repeat nil)
+                                  ("COMMAND" nil :repeat nil)
                                   ("CONFIGURATIONS" :repeat nil)
                                   ("DISCOVERY_ARGS" :repeat nil)
                                   ("DISCOVERY_MATCH" nil)
@@ -1309,6 +1351,7 @@ This is used to keep down the size of
                                       ("COPY_FILE"       :path :path)
                                       ("ENCODING"        nil)
                                       ("MAKE_DIRECTORY"  :repeat :path)
+                                      ("PATTERNS_EXCLUDE" :repeat nil)
                                       ("POST_EXCLUDE_FILES" :repeat :path)
                                       ("POST_INCLUDE_FILES" :repeat :path)
                                       ("READ"            :path :var)
@@ -1391,6 +1434,7 @@ This is used to keep down the size of
     ("get_property"           (:var) (("PROPERTY"  :prop)
                                       ("DIRECTORY" :optional :path)
                                       ("INSTALL"   :path)
+                                      ("RULE"      :rule)
                                       ("SOURCE"    :path)
                                       ("FILE_SET"  :fileset)
                                       ("TARGET"    :tgt)
@@ -1433,6 +1477,8 @@ This is used to keep down the size of
       ("OR"                    :optional :var)
       ("PATH_EQUAL"            :var)
       ("POLICY"                :policy)
+      ("PATH_IS_PREFIX"        :var)
+      ("RULE"                  :rule)
       ("STREQUAL"              :var)
       ("STRGREATER"            :var)
       ("STRGREATER_EQUAL"      :var)
@@ -1447,13 +1493,57 @@ This is used to keep down the size of
       ("VERSION_LESS_EQUAL"    :var)))
     ("include"                ()     (("RESULT_VARIABLE"   :var)))
     ("include_external_msproject" (:tgt :path))
-    ("install"                () (("TARGETS"           :repeat :tgt))
-     (("DIRECTORY"                  :repeat :path)
-      ("FILES"                      :repeat :path)
-      ("IMPORTED_RUNTIME_ARTIFACTS" :repeat :tgt)
-      ("PROGRAMS"                   :repeat :path)
-      ("SCRIPT"                     :path)
-      ("TARGETS"                    :repeat :tgt)))
+    ("install"                () (("APPENDIX" nil)
+                                  ("BUILD_DEPENDS" :repeat :tgt)
+                                  ("CODE" nil)
+                                  ("CONFIGURATIONS" :repeat nil)
+                                  ("COMPAT_VERSION" nil)
+                                  ("COMPONENT" nil)
+                                  ("CXX_MODULES_DIRECTORY" :path)
+                                  ("DATA_LICENSE" nil)
+                                  ("DEFAULT_CONFIGURATIONS" :repeat nil)
+                                  ("DEFAULT_LICENSE" nil)
+                                  ("DEFAULT_TARGETS" :repeat :tgt)
+                                  ("DESCRIPTION" nil)
+                                  ("DESTINATION" :path)
+                                  ("DIRECTORIES" :repeat :path)
+                                  ("DIRECTORY" :repeat :path)
+                                  ("DIRECTORY_PERMISSIONS" :repeat nil)
+                                  ("EXPORT" nil)
+                                  ("EXPORT_ANDROID_MK" nil)
+                                  ("EXPORTS" :repeat nil)
+                                  ("FILE" :path)
+                                  ("FILE_PERMISSIONS" :repeat nil)
+                                  ("FILE_SET" :fileset)
+                                  ("FILES" :repeat :path)
+                                  ("FORMAT" nil)
+                                  ("HOMEPAGE_URL" nil)
+                                  ("IMPORTED_RUNTIME_ARTIFACTS" :repeat :tgt)
+                                  ("LICENSE" nil)
+                                  ("NAMELINK_COMPONENT" nil)
+                                  ("NAMESPACE" nil)
+                                  ("PACKAGE_INFO" nil)
+                                  ("PACKAGE_URL" nil)
+                                  ("PATTERN" nil)
+                                  ("PERMISSIONS" :repeat nil)
+                                  ("POST_EXCLUDE_FILES" :repeat :path)
+                                  ("POST_EXCLUDE_REGEXES" :repeat :regexp)
+                                  ("POST_INCLUDE_FILES" :repeat :path)
+                                  ("POST_INCLUDE_REGEXES" :repeat :regexp)
+                                  ("PRE_EXCLUDE_REGEXES" :repeat :regexp)
+                                  ("PRE_INCLUDE_REGEXES" :repeat :regexp)
+                                  ("PROGRAMS" :repeat :path)
+                                  ("PROJECT" nil)
+                                  ("REGEX" :regexp)
+                                  ("RENAME" :path)
+                                  ("RUNTIME_DEPENDENCIES" :repeat nil)
+                                  ("RUNTIME_DEPENDENCY_SET" nil)
+                                  ("SBOM" nil)
+                                  ("SCRIPT" :path)
+                                  ("TARGETS" :repeat :tgt)
+                                  ("TYPE" nil)
+                                  ("VERSION" nil)
+                                  ("VERSION_SCHEMA" nil)))
     ("list"                   () (("FILTER"            :var)
                                   ("LENGTH"            :var :var)
                                   ("GET"               :var :repeat nil :var)
@@ -1477,7 +1567,9 @@ This is used to keep down the size of
     ("macro"                  (:func :repeat :var))
     ("mark_as_advanced"       (:repeat :var) (("CLEAR" :repeat :var)
                                               ("FORCE" :repeat :var)))
-    ("math"                   () (("EXPR" :var)))
+    ("math"                   () (("DECREMENT" :var)
+                                  ("EXPR" :var nil)
+                                  ("INCREMENT" :var))
     ("option"                 (:var))
     ("return"                 () (("PROPAGATE" :repeat :var)))
     ("separate_arguments"     (:var))
@@ -1487,6 +1579,7 @@ This is used to keep down the size of
                                        ("DIRECTORY"        :repeat :path)
                                        ("INSTALL"          :repeat :path)
                                        ("SOURCE"           :repeat :path)
+                                       ("RULE"             :repeat :rule)
                                        ("FILE_SET"         :repeat :fileset)
                                        ("TARGET"           :repeat :tgt)
                                        ("TARGET_DIRECTORY" :repeat :tgt)
@@ -1498,6 +1591,12 @@ This is used to keep down the size of
                                               ("PROPERTIES" :repeat (:prop nil))))
     ("set_test_properties"    (:repeat :tst) (("PROPERTIES" :repeat (:prop nil))))
     ("site_name"              (:var))
+    ("source_group"   (:optional nil) (("FILE_SETS"          :repeat nil)
+                                       ("FILES"              :repeat :path)
+                                       ("PREFIX"             nil)
+                                       ("REGULAR_EXPRESSION" nil)
+                                       ("TARGET"             nil)
+                                       ("TREE"               nil)))
     ("string"                 ()      (("CONCAT"    :var)
                                        ("GENEX_STRIP" nil :var)
                                        ("JSON"      :var)
@@ -1595,6 +1694,7 @@ An argument kind is:
  - :policy        A CMake policy
 |- :diag          A CMake diagnostic category
  - :path          A file or a directory
+ - :rule          A rule
  - :tgt           A target
  - :def           A preprocessor definition
  - :optional      The rest of the elements are not mandatory
@@ -1942,6 +2042,7 @@ ${var} construct."
     (:diag    . font-lock-constant-face)
     (:keyword . font-lock-type-face)
     (:fileset . font-lock-constant-face)
+    (:rule    . font-lock-constant-face)
     (:tgt     . font-lock-constant-face)
     (:tst     . font-lock-constant-face))
   "*Map from argument kind to face used to highlight that kind.")
